@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,16 @@ public class NotificacionController {
             return new ResponseEntity<>(notificaciones, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping("/{idNotificacion}")
+    public ResponseEntity<Notificacion> readNotificacion(@PathVariable int idNotificacion) {
+        Notificacion buscarNotificacion = notificacionService.findById(idNotificacion);
+        if(buscarNotificacion != null) {
+            return new ResponseEntity<>(buscarNotificacion, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
