@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,11 +46,40 @@ public class NotificacionController {
     @PostMapping
     public ResponseEntity<Notificacion> postReporte(@RequestBody Notificacion notificacion) {
         Notificacion buscar = notificacionService.findById(notificacion.getIdNotificacion());
-        if (buscar == null) {
+        if(buscar == null) {
             return new ResponseEntity<>(notificacionService.save(notificacion), HttpStatus.CREATED);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
+    @PutMapping("/{idNotificacion}")
+    public ResponseEntity<Notificacion> updateNotificacion(@PathVariable int idNotificacion, @RequestBody Notificacion notificacion) {
+        Notificacion buscar = notificacionService.findById(idNotificacion);
+        if(buscar != null) {
+            buscar.setIdUsuarioDestino(notificacion.getIdUsuarioDestino());
+            buscar.setCanal(notificacion.getCanal());
+            buscar.setTipoEvento(notificacion.getTipoEvento());
+            buscar.setTitulo(notificacion.getTitulo());
+            buscar.setMensaje(notificacion.getMensaje());
+            buscar.setFechaEvento(notificacion.getFechaEvento());
+            buscar.setEstado(notificacion.getEstado());
+            
+            notificacionService.save(buscar);
+            return new ResponseEntity<>(notificacion, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{idNotificacion}") 
+    public ResponseEntity<?> deleteNotificacion(@PathVariable int idNotificacion) {
+        Notificacion buscar = notificacionService.findById(idNotificacion);
+        if(buscar != null) {
+            notificacionService.deleteById(idNotificacion);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

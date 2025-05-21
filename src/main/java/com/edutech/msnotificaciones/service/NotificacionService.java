@@ -24,4 +24,8 @@ public class NotificacionService {
     public Notificacion save(Notificacion notificacion) {
         return notificacionRepository.save(notificacion);
     }
+
+    public void deleteById(int idNotificacion) {
+        notificacionRepository.deleteById(idNotificacion);
+    }
 }

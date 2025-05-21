@@ -14,4 +14,6 @@ public interface NotificacionRepository extends JpaRepository<Notificacion, Inte
 
     @SuppressWarnings("unchecked")
     Notificacion save(Notificacion notificacion);
+
+    void deleteById(int idNotificacion);
 }
