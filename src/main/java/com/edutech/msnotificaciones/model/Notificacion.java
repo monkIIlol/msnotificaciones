@@ -25,8 +25,8 @@ public class Notificacion {
     @Column(unique = true)
     private int idNotificacion;
 
-    //@Column()
-    //private int idUsuarioDestino;
+    @Column() //Interaccion
+    private int idUsuarioDestino;
 
     @Column(length = 50, nullable = false)
     private String canal;
@@ -46,8 +46,4 @@ public class Notificacion {
     @Column(length = 50, nullable = false)
     private String estado;
 
-    public Object getIdReporte() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getIdReporte'");
-    }
 }
