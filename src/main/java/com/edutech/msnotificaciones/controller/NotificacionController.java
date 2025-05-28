@@ -55,17 +55,7 @@ public class NotificacionController {
 
     @PutMapping("/{idNotificacion}")
     public ResponseEntity<Notificacion> updateNotificacion(@PathVariable int idNotificacion, @RequestBody Notificacion notificacion) {
-        Notificacion buscar = notificacionService.findById(idNotificacion);
-        if(buscar != null) {
-            buscar.setIdUsuarioDestino(notificacion.getIdUsuarioDestino());
-            buscar.setCanal(notificacion.getCanal());
-            buscar.setTipoEvento(notificacion.getTipoEvento());
-            buscar.setTitulo(notificacion.getTitulo());
-            buscar.setMensaje(notificacion.getMensaje());
-            buscar.setFechaEvento(notificacion.getFechaEvento());
-            buscar.setEstado(notificacion.getEstado());
-            
-            notificacionService.save(buscar);
+        if(notificacionService.update(idNotificacion, notificacion)) {
             return new ResponseEntity<>(notificacion, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -28,4 +28,22 @@ public class NotificacionService {
     public void deleteById(int idNotificacion) {
         notificacionRepository.deleteById(idNotificacion);
     }
+
+    public boolean update(int idNotificacion, Notificacion notificacion) {
+        Notificacion not = notificacionRepository.findById(idNotificacion);
+        if(not != null) {
+            not.setIdNotificacion(notificacion.getIdNotificacion());
+            not.setCanal(notificacion.getCanal());
+            not.setTipoEvento(notificacion.getTipoEvento());
+            not.setTitulo(notificacion.getTitulo());
+            not.setMensaje(notificacion.getMensaje());
+            not.setFechaEvento(notificacion.getFechaEvento());
+            not.setEstado(notificacion.getEstado());
+
+            notificacionRepository.save(not);
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
