@@ -1,5 +1,6 @@
 package com.edutech.msnotificaciones.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.edutech.msnotificaciones.model.Notificacion;
 import com.edutech.msnotificaciones.service.NotificacionService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("api/v1/notificaciones")
@@ -42,6 +45,19 @@ public class NotificacionController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("usuario/notificacion/{idUsuarioDestino}")
+    public ResponseEntity<List<Notificacion>> getListNotificacion(@PathVariable int idUsuarioDestino) {
+        List<Notificacion> buscar = notificacionService.findAll();
+        List<Notificacion> listaNotificacion = new ArrayList<>();
+        for (Notificacion notificacion : buscar) {
+            if(notificacion.getIdUsuarioDestino() == idUsuarioDestino) {
+                listaNotificacion.add(notificacion);
+            }
+        }
+        return new ResponseEntity<>(listaNotificacion, HttpStatus.OK);
+    }
+    
 
     @PostMapping
     public ResponseEntity<Notificacion> postReporte(@RequestBody Notificacion notificacion) {
